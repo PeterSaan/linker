@@ -1,8 +1,8 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
+	// "database/sql"
+	// "fmt"
 	"log"
 	"os"
 
@@ -28,25 +28,25 @@ func main() {
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 	r.Use(cors.New(config))
 
-	// Database connection
-	dbURL := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-	)
+	// // Database connection
+	// dbURL := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+	// 	os.Getenv("DB_HOST"),
+	// 	os.Getenv("DB_PORT"),
+	// 	os.Getenv("DB_USER"),
+	// 	os.Getenv("DB_PASSWORD"),
+	// 	os.Getenv("DB_NAME"),
+	// )
 
-	db, err := sql.Open("postgres", dbURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+	// db, err := sql.Open("postgres", dbURL)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer db.Close()
 
-	// Test database connection
-	if err := db.Ping(); err != nil {
-		log.Fatal(err)
-	}
+	// // Test database connection
+	// if err := db.Ping(); err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	// Routes
 	r.GET("/api/health", func(c *gin.Context) {
@@ -63,5 +63,5 @@ func main() {
 	r.Run(":" + port)
 
 	r.Static("/assets", "./frontend/dist/assets")
-r.StaticFile("/", "./frontend/dist/index.html")
+	r.StaticFile("/", "./frontend/dist/index.html")
 }
