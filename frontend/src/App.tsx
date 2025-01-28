@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import api from './api/axios'
+import { Button } from "@/components/ui/button"
 import './App.css'
 
 function App() {
@@ -13,12 +14,14 @@ function App() {
       })
       .catch(error => {
         console.error('Error:', error)
+        setHealth('Error')
       })
   }, [])
 
   return (
     <div className="App">
-      <h1>Vite + React + Go</h1>
+      <h1 className='text-3xl font-bold underline'>Vite + React + Go</h1>
+      <Button>Click me</Button>
       <p>API Status: {health}</p>
     </div>
   )
