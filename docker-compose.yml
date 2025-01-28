@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:17.2
+    container_name: linker-database
+    restart: always
+    env_file:
+      - ./backend/.env
+    volumes:
+      - db-data:/var/lib/postgresql/data 
+    ports:
+      - "5432:5432"
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: backend.Dockerfile
+    container_name: linker-backend
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+    working_dir: "/backend"
+    ports:
+      - "8080:8080"
+    command: "go run ."
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /backend
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: frontend.Dockerfile
+    container_name: linker-frontend
+    restart: always
+    depends_on:
+      - backend
+    working_dir: "/frontend"
+    ports:
+      - "5173:5173"
+    command: "npm run dev"
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /frontend
+          ignore:
+            - node_modules/
+
+volumes:
+    db-data: 
