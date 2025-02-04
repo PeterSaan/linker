@@ -1,5 +1,7 @@
 # Linker
 
+Where the struggles of job-looking are made easier
+
 ## Starting project
 
 **Make sure you have docker installed**
