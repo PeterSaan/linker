@@ -1,4 +1,4 @@
-package connection
+package database
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetDB() (*gorm.DB, error) {
+func Connect() (*gorm.DB, error) {
 	if err := godotenv.Load(); err != nil {
 		log.Printf("Error loading .env file: %v", err)
 	}
