@@ -1,16 +1,11 @@
-package main
-
-import (
-	"time"
-
-	"gorm.io/gorm"
-)
+package models
 
 type User struct {
-	ID        uint `gorm:"primaryKey"`
-	Email     string
-	Password  string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+	ID        int64          `gorm:"primaryKey;autoIncrement:false"`
+	Email     int64          `gorm:"column:email"`
+	Password  int64          `gorm:"column:password"`
+	Profile   Profile        `gorm:"foreignKey:ID;references:UserID"`
+	Chats     []Chat         `gorm:"foreignKey:UserID"`
+	Chatrooms []ChatroomUser `gorm:"foreignKey:UserID"`
+	JobTitle  UserJobTitle   `gorm:"foreignKey:UserID"`
 }

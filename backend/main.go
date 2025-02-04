@@ -4,6 +4,7 @@ import (
 	// "database/sql"
 	// "fmt"
 
+	database "linker/database/connection"
 	"log"
 	"os"
 
@@ -30,7 +31,7 @@ func main() {
 	r.Use(cors.New(config))
 
 	// get connection from database/connection.go
-	db, err := database.getDB()
+	db, err := database.GetDB()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
@@ -38,6 +39,13 @@ func main() {
 	// Routes
 	r.GET("/api/health", func(c *gin.Context) {
 
+		// query if database connected or not
+		ret, err := db.Exec("SELECT 1")
+		if err != nil {
+			c.JSON(200, gin.H{
+				"status": "not ok",
+			})
+		}
 		c.JSON(200, gin.H{
 			"status": "ok",
 		})
