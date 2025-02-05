@@ -2,7 +2,9 @@ package main
 
 import (
 	"linker/internal/database"
+	"linker/internal/models"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +17,7 @@ func main() {
 	}
 
 	router := gin.Default()
-	port := os.Getenv("PORT")
+	port := os.Getenv("GIN_PORT")
 	if port == "" {
 		port = "8080"
 	}
@@ -26,6 +28,11 @@ func main() {
 	}
 
 	router.GET("/api/health", func(ctx *gin.Context) {
+		chat := db.First(&models.Chat{})
+		ctx.JSON(http.StatusOK, gin.H{
+			"test": "working",
+			"Chat": chat,
+		})
 	})
 
 	router.Run(":" + port)
