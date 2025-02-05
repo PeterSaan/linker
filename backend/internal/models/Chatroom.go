@@ -1,8 +1,8 @@
 package models
 
 type Chatroom struct {
-	ID    int64
-	Name  int64
-	Chats []Chat
-	Users []ChatroomUser
+	ID    uint						`gorm:"primaryKey;autoIncrement:false"`
+	Name  string					`gorm:"column:name"`
+	Chats []Chat					`gorm:"foreignKey:ChatroomID"`
+	Users []ChatroomUser	`gorm:"foreignKey:ChatroomID"`
 }

@@ -1,7 +1,7 @@
 package models
 
 type JobTitle struct {
-	ID           int64
-	Name         int64
-	UserJobTitle UserJobTitle
+	ID           uint					`gorm:"primaryKey;autoIncrement:false"`
+	Name         string				`gorm:"column:name"`
+	UserJobTitle UserJobTitle	`gorm:"foreignKey:JobTitleID"`
 }
