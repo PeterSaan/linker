@@ -2,7 +2,8 @@ package database
 
 import (
 	"fmt"
-	"log"
+	"linker/internal/migration"
+	"linker/internal/seeder"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -12,19 +13,29 @@ import (
 
 func Connect() (*gorm.DB, error) {
 	if err := godotenv.Load(); err != nil {
-		log.Printf("Error loading .env file: %v", err)
+		return nil, err
 	}
 
 	dbURL := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
+		os.Getenv("POSTGRES_HOST"),
+		os.Getenv("POSTGRES_PORT"),
+		os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_PASSWORD"),
+		os.Getenv("POSTGRES_DB"),
 	)
+
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
-	return db, err
+
+	if err := migration.Migrate(db); err != nil {
+		return nil, err
+	}
+
+	if err := seeder.Seed(db); err != nil {
+		return nil, err
+	}
+	
+	return db, nil
 }

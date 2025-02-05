@@ -22,7 +22,7 @@ services:
     working_dir: "/backend"
     ports:
       - "8080:8080"
-    command: "go run ."
+    command: "go run cmd/api/main.go"
     develop:
       watch:
         - action: sync
