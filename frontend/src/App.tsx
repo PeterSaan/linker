@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import api from './api/axios'
 import { Button } from "@/components/ui/button"
+import SwipeCard from './components/ui/swipeCard'
 import TinderCard from 'react-tinder-card'
 import './App.css'
 
-function App() {
+export default function App() {
   const [health, setHealth] = useState<string>('')
 
   useEffect(() => {
@@ -28,14 +29,14 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App flex flex-col items-center min-h-screen">
       <h1 className='text-3xl font-bold underline'>Vite + React + Go</h1>
       <Button>Click me</Button>
       <p>API Status: {health}</p>
 
-      <TinderCard onSwipe={onSwipe} onCardLeftScreen={() => onCardLeftScreen('fooBar')} preventSwipe={['up', 'down']}>Hello, World!</TinderCard>
+      <TinderCard className="max-w-sm" onSwipe={onSwipe} onCardLeftScreen={() => onCardLeftScreen('fooBar')} preventSwipe={['up', 'down']}>
+        <SwipeCard />
+      </TinderCard>
     </div>
   )
 }
-
-export default App
