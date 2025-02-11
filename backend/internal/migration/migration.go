@@ -16,7 +16,6 @@ func Migrate(db *gorm.DB) error {
 		&models.Media{},
 		&models.Profile{},
 		&models.User{},
-		&models.UserJobTitle{},
 	}
 
 	for _, model := range modelList {
