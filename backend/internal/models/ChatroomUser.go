@@ -1,7 +1,9 @@
 package models
 
 type ChatroomUser struct {
-	ID         uint	`gorm:"primaryKey;autoIncrement:false"`
-	ChatroomID uint	`gorm:"column:chatroom_id"`
-	UserID     uint	`gorm:"column:user_id"`
+	ID         uint
+	ChatroomID uint
+	Chatroom   Chatroom
+	UserID     uint
+	User       []*User `gorm:"many2many:chatroom_users;"`
 }

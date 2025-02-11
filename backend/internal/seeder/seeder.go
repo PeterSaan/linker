@@ -8,13 +8,21 @@ import (
 )
 
 func Seed(db *gorm.DB) error {
-	chats := []*models.Chat{
-		{ Body: 1, UserID: 1, ChatroomID: 1},
-		{ Body: 2, UserID: 2, ChatroomID: 2},
+    profiles := []*models.Profile{
+        { Name: "HelloWorld", Description: "Pleb", Type: "Recruiter" },
+    }
+
+    users := []*models.User{
+        { Email: "hello@example.com", Password: "1234" },
+    }
+
+	if err := db.Create(profiles).Error; err != nil {
+		log.Println("Error inserting users")
+		return err
 	}
 	
-	if err := db.Create(chats).Error; err != nil {
-		log.Println("Error inserting chats")
+	if err := db.Create(users).Error; err != nil {
+		log.Println("Error inserting users")
 		return err
 	}
 
