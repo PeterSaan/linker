@@ -6,12 +6,16 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"io"
+	"linker/app/services"
+	"linker/internal/structs"
 	"log"
 	"net/http"
 	"os"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 )
+
 
 var LinkedIn = oauth2.Endpoint{
 	AuthURL:  "https://www.linkedin.com/oauth/v2/authorization",
@@ -29,10 +33,10 @@ var linkedInOauthConfig = &oauth2.Config{
 const oauthLinkedInApiUrl = "https://api.linkedin.com/v2/userinfo"
 
 func OauthLogin(ctx *gin.Context) {
-	oauthstate := generateStateOauthCookie(ctx)
+	oauthState := generateStateOauthCookie(ctx)
 
-	authURL := linkedInOauthConfig.AuthCodeURL(oauthstate)
-
+	authURL := linkedInOauthConfig.AuthCodeURL(oauthState)
+    
 	ctx.Redirect(http.StatusTemporaryRedirect, authURL)
 }
 
@@ -45,7 +49,7 @@ func OauthCallBack(ctx *gin.Context) {
 	}
 
 	if ctx.Query("state") != oauthState {
-		log.Printf("Invalid oauth state")
+        log.Printf("Invalid oauth state: %v \n", oauthState)
 		ctx.Redirect(http.StatusPermanentRedirect, "/")
 		return
 	}
@@ -57,15 +61,17 @@ func OauthCallBack(ctx *gin.Context) {
 		return
 	}
 
-	var dataJson map[string]interface{}
+    var userData structs.UserData 
 
-	err = json.Unmarshal(data, &dataJson)
+	err = json.Unmarshal(data, &userData)
 	if err != nil {
 		log.Printf("Error unmarshaling user data: %v \n", err)
 		return
 	}
 
-	log.Printf("UserData: %+v \n", dataJson)
+	log.Printf("UserData: %+v \n", userData)
+
+    services.Login(userData)
 }
 
 func getUserData(code string) ([]byte, error) {
@@ -103,7 +109,8 @@ func generateStateOauthCookie(ctx *gin.Context) string {
 	b := make([]byte, 16)
 	rand.Read(b)
 	state := base64.URLEncoding.EncodeToString(b)
-	ctx.SetCookie("linker_oauhtstate", state, expiration, "/", "localhost", false, true)
+	ctx.SetCookie("linker_oauthstate", state, expiration, "/", "localhost", false, true)
 
 	return state
 }
+
