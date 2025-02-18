@@ -1,6 +1,7 @@
 package main
 
 import (
+	"linker/internal/auth"
 	"linker/internal/database"
 	"linker/internal/models"
 	"log"
@@ -27,13 +28,19 @@ func main() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
+	result := map[string]interface{}{}
+	log.Printf("User found: %+v\n", db.Model(&models.Profile{}).First(&result))
+
 	router.GET("/api/health", func(ctx *gin.Context) {
-		chat := db.First(&models.Chat{})
 		ctx.JSON(http.StatusOK, gin.H{
 			"test": "working",
-			"Chat": chat,
+			"pp":   result,
 		})
 	})
+
+	router.GET("/auth/linkedin/callback", auth.OauthCallBack)
+
+	router.GET("/auth/login", auth.OauthLogin)
 
 	router.Run(":" + port)
 }

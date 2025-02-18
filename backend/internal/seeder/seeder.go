@@ -13,7 +13,7 @@ func Seed(db *gorm.DB) error {
     }
 
     users := []*models.User{
-        { Email: "hello@example.com", Password: "1234" },
+        { Email: "hello@example.com" },
     }
 
 	if err := db.Create(users).Error; err != nil {

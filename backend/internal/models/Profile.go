@@ -2,6 +2,7 @@ package models
 
 type Profile struct {
 	ID          uint
+    User        User
 	UserID      uint
 	Name        string
 	Description string
