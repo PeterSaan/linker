@@ -3,12 +3,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-export default function Login(){
+export default function Register(){
   return (
     <Card className="w-full max-w-sm p-6 shadow-lg rounded-2xl">
-      <h2 className="text-2xl font-bold text-center">Login</h2>
+      <h2 className="text-2xl font-bold text-center">Create an account</h2>
       <p className="text-sm text-gray-600 text-center mb-4">
-        Enter your email below to login
+        Enter your email below to create your account
       </p>
       <div className="flex mb-5">
         <Button variant="outline" className="flex-1 flex items-center">
@@ -24,7 +24,7 @@ export default function Login(){
       <form className="space-y-4 mt-4">
         <Input type="email" placeholder="m@example.com" className="w-full" />
         <Input type="password" placeholder="Password" className="w-full" />
-        <Button className="w-full">Login</Button>
+        <Button className="w-full">Create account</Button>
       </form>
     </Card>
   );

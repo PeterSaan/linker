@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import TinderCard from 'react-tinder-card'
 import './App.css'
 
+import Login from './pages/login';
+
 function App() {
   const [health, setHealth] = useState<string>('')
 
