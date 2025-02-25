@@ -69,9 +69,9 @@ func OauthCallBack(ctx *gin.Context) {
 		return
 	}
 
-    user, err := services.LinkedInLogin(userData)
+    user, err := services.LinkedInGetUser(userData)
     if err != nil {
-        log.Printf("Error logging in: %v \n", err)
+        log.Printf("Error getting user: %v \n", err)
         return 
     }
 
@@ -79,7 +79,10 @@ func OauthCallBack(ctx *gin.Context) {
     if err != nil {
         log.Printf("Error generating token: %v \n", err)
     }
-    services.ParseToken(tokenString)
+
+    expiration := 60 * 60 * 24 * 30
+
+    ctx.SetCookie("linker_token", tokenString, expiration, "/", "localhost", false, true)
 }
 
 func getUserData(code string) ([]byte, error) {

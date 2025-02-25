@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func LinkedInLogin(userData structs.UserDataLinkedIn) ( *models.User, error ) {
+func LinkedInGetUser(userData structs.UserDataLinkedIn) ( *models.User, error ) {
 	var user *models.User
     database := database.GetDB()
 
@@ -15,7 +15,7 @@ func LinkedInLogin(userData structs.UserDataLinkedIn) ( *models.User, error ) {
 
 	if err := database.Where("email = ?", userData.Email).First(&user).Error; err != nil {
 		log.Printf("User not found in database, creating new record \n")
-        if err := LinkedInRegister(userData); err != nil {
+        if err := LinkedInRegisterUser(userData); err != nil {
             return nil, err
         }
 	 }
@@ -25,7 +25,7 @@ func LinkedInLogin(userData structs.UserDataLinkedIn) ( *models.User, error ) {
     return user, nil
 }
 
-func LinkedInRegister(userData structs.UserDataLinkedIn) error {
+func LinkedInRegisterUser(userData structs.UserDataLinkedIn) error {
 	user := models.User{Email: userData.Email}
     database := database.GetDB()
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"linker/internal/auth"
+	"linker/app/controllers/auth"
 	"linker/internal/database"
 	"log"
 	"os"
