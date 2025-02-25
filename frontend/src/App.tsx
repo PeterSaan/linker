@@ -29,11 +29,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className='text-3xl font-bold underline'>Vite + React + Go</h1>
-      <Button>Click me</Button>
-      <p>API Status: {health}</p>
-
-      <TinderCard onSwipe={onSwipe} onCardLeftScreen={() => onCardLeftScreen('fooBar')} preventSwipe={['up', 'down']}>Hello, World!</TinderCard>
+      
     </div>
   )
 }
