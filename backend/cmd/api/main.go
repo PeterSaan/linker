@@ -2,6 +2,7 @@ package main
 
 import (
 	"linker/app/controllers/auth"
+	"linker/app/middleware"
 	"linker/internal/database"
 	"log"
 	"os"
@@ -26,13 +27,18 @@ func main() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-    authentication := router.Group("/auth")
+    authRoutes := router.Group("/auth")
     {
-        authentication.GET("/linkedin/callback", auth.OauthCallBack)
+        authRoutes.GET("/linkedin/callback", auth.OauthCallBack)
+        authRoutes.GET("/linkedin/login", auth.OauthLogin)
+        authRoutes.POST("/login", auth.PasswordLogin)
+        authRoutes.POST("/logout", auth.Logout)
+        authRoutes.POST("/register", auth.PasswordRegister)
+    }
 
-        authentication.GET("/linkedin/login", auth.OauthLogin)
-
-        authentication.POST("/login") // login without linkedin
+    authorized := router.Group("/", middleware.JWTMiddleware())
+    {
+        authorized.GET("/test")
     }
 
 

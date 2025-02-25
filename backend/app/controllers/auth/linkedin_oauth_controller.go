@@ -78,11 +78,10 @@ func OauthCallBack(ctx *gin.Context) {
     tokenString, err := services.GenerateToken(user)
     if err != nil {
         log.Printf("Error generating token: %v \n", err)
+        return
     }
 
-    expiration := 60 * 60 * 24 * 30
-
-    ctx.SetCookie("linker_token", tokenString, expiration, "/", "localhost", false, true)
+    services.SetTokenCookie(ctx, tokenString)
 }
 
 func getUserData(code string) ([]byte, error) {
