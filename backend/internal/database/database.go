@@ -11,6 +11,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
 func Connect() (*gorm.DB, error) {
 	if err := godotenv.Load(); err != nil {
 		return nil, err
@@ -36,6 +38,12 @@ func Connect() (*gorm.DB, error) {
 	if err := seeder.Seed(db); err != nil {
 		return nil, err
 	}
+
+    DB = db
 	
 	return db, nil
+}
+
+func GetDB() *gorm.DB {
+    return DB
 }
