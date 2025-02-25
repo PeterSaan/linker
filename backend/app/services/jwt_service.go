@@ -43,7 +43,7 @@ func ParseToken(tokenString string) (*structs.JWTClaims, error) {
 		return nil, err
 	}
 	if !token.Valid {
-		return nil, fmt.Errorf("unautorized")
+		return nil, fmt.Errorf("Unautorized")
 	}
 
 	return claims, err

@@ -78,6 +78,7 @@ func OauthCallBack(ctx *gin.Context) {
     tokenString, err := services.GenerateToken(user)
     if err != nil {
         log.Printf("Error generating token: %v \n", err)
+        return
     }
 
     services.SetTokenCookie(ctx, tokenString)
