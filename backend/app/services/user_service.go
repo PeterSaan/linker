@@ -7,10 +7,9 @@ import (
 	"log"
 )
 
-// TODO: Get db somehow
-
 func Login(userData structs.UserData) {
 	var user models.User
+    database := database.GetDB()
 
 	log.Printf("User data: %+v", userData)
 
@@ -24,6 +23,8 @@ func Login(userData structs.UserData) {
 
 func register(userData structs.UserData) {
 	user := models.User{Email: userData.Email}
+    database := database.GetDB()
+
 	if err := database.Create(&user).Error; err != nil {
 		log.Printf("Failed to create user: %v", err)
 	}

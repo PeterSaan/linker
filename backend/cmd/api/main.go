@@ -38,9 +38,15 @@ func main() {
 		})
 	})
 
-	router.GET("/auth/linkedin/callback", auth.OauthCallBack)
+    authentication := router.Group("/auth")
+    {
+        authentication.GET("/linkedin/callback", auth.OauthCallBack)
 
-	router.GET("/auth/login", auth.OauthLogin)
+        authentication.GET("/linkedin/login", auth.OauthLogin)
+
+        authentication.GET("/login") // login without linkedin
+    }
+
 
 	router.Run(":" + port)
 }
