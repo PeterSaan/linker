@@ -61,7 +61,7 @@ func OauthCallBack(ctx *gin.Context) {
 		return
 	}
 
-    var userData structs.UserData 
+    var userData structs.UserDataLinkedIn
 
 	err = json.Unmarshal(data, &userData)
 	if err != nil {
@@ -69,9 +69,17 @@ func OauthCallBack(ctx *gin.Context) {
 		return
 	}
 
-	log.Printf("UserData: %+v \n", userData)
+    user, err := services.LinkedInLogin(userData)
+    if err != nil {
+        log.Printf("Error logging in: %v \n", err)
+        return 
+    }
 
-    services.Login(userData)
+    tokenString, err := services.GenerateToken(user)
+    if err != nil {
+        log.Printf("Error generating token: %v \n", err)
+    }
+    services.ParseToken(tokenString)
 }
 
 func getUserData(code string) ([]byte, error) {

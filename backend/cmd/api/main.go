@@ -3,9 +3,7 @@ package main
 import (
 	"linker/internal/auth"
 	"linker/internal/database"
-	"linker/internal/models"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -23,20 +21,10 @@ func main() {
 		port = "8080"
 	}
 
-	db, err := database.Connect()
+	_, err := database.Connect()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
-
-	result := map[string]interface{}{}
-	log.Printf("User found: %+v\n", db.Model(&models.Profile{}).First(&result))
-
-	router.GET("/api/health", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"test": "working",
-			"pp":   result,
-		})
-	})
 
     authentication := router.Group("/auth")
     {
@@ -44,7 +32,7 @@ func main() {
 
         authentication.GET("/linkedin/login", auth.OauthLogin)
 
-        authentication.GET("/login") // login without linkedin
+        authentication.POST("/login") // login without linkedin
     }
 
 
