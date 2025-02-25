@@ -1,4 +1,4 @@
-package services 
+package services
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -46,4 +47,10 @@ func ParseToken(tokenString string) (*structs.JWTClaims, error) {
 	}
 
 	return claims, err
+}
+
+func SetTokenCookie(ctx *gin.Context, tokenString string) {
+    expiration := 60 * 60 * 24 * 30
+
+    ctx.SetCookie("linker_token", tokenString, expiration, "/", "localhost", false, true)
 }

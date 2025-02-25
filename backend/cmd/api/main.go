@@ -29,10 +29,10 @@ func main() {
     authentication := router.Group("/auth")
     {
         authentication.GET("/linkedin/callback", auth.OauthCallBack)
-
         authentication.GET("/linkedin/login", auth.OauthLogin)
-
-        authentication.POST("/login") // login without linkedin
+        authentication.POST("/login", auth.PasswordLogin)
+        authentication.POST("/logout", auth.Logout)
+        authentication.POST("/register", auth.PasswordRegister)
     }
 
 
