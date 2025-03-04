@@ -3,7 +3,6 @@ package database
 import (
 	"fmt"
 	"linker/internal/migration"
-	"linker/internal/seeder"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -32,10 +31,6 @@ func Connect() (*gorm.DB, error) {
 	}
 
 	if err := migration.Migrate(db); err != nil {
-		return nil, err
-	}
-
-	if err := seeder.Seed(db); err != nil {
 		return nil, err
 	}
 

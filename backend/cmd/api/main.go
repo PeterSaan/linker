@@ -4,6 +4,7 @@ import (
 	"linker/app/controllers/auth"
 	"linker/app/middleware"
 	"linker/internal/database"
+	"linker/internal/seeder"
 	"log"
 	"os"
 
@@ -26,6 +27,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
+
+    if err := seeder.Main(); err != nil {
+        log.Fatalf("Error seeding database: %v", err)
+    }  
 
     authRoutes := router.Group("/auth")
     {
