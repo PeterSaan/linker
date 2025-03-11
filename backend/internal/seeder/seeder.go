@@ -1,30 +1,13 @@
 package seeder
 
-import (
-	// "linker/internal/models"
-	// "log"
+func Main() error {
+	if err := UserSeeder(); err != nil {
+		return err
+	}
 
-	"gorm.io/gorm"
-)
-
-func Seed(db *gorm.DB) error {
-	//    profiles := []*models.Profile{
-	//        { Name: "HelloWorld", Description: "Pleb", Type: "Recruiter", UserID: 1 },
-	//    }
-	//
-	//    users := []*models.User{
-	//        { Email: "hello@example.com" },
-	//    }
-	//
-	// if err := db.Create(users).Error; err != nil {
-	// 	log.Println("Error inserting users")
-	// 	return err
-	// }
-	//
-	// if err := db.Create(profiles).Error; err != nil {
-	// 	log.Println("Error inserting users")
-	// 	return err
-	// }
+	if err := ProfileSeeder(); err != nil {
+		return err
+	}
 
 	return nil
 }

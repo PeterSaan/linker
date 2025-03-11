@@ -7,4 +7,5 @@ type User struct {
 	Chats     []Chat
 	Chatrooms []*Chatroom `gorm:"many2many:chatroom_users;"`
 	JobTitle  []*JobTitle `gorm:"many2many:user_jobtitles;"`
+    Profile   Profile
 }
