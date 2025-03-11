@@ -11,7 +11,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var key = []byte(os.Getenv("KEY"))
+var key = []byte(os.Getenv("APP_KEY"))
 
 func GenerateToken(user *models.User) (string, error) {
 	expirationTime := time.Now().AddDate(0, 0, 30)

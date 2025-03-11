@@ -1,19 +1,24 @@
 package cli
 
 import (
-	"os"
+	"log"
 
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "linker",
+	Use:   "clinker",
 	Short: "Linker CLI",
 }
 
+var hideHelp = &cobra.Command{
+	Hidden: true,
+}
+
 func Execute() {
+	rootCmd.SetHelpCommand(hideHelp)
 	err := rootCmd.Execute()
 	if err != nil {
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }

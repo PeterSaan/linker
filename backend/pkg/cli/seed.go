@@ -1,16 +1,22 @@
 package cli
 
 import (
-	"fmt"
+	"linker/internal/seeder"
+	"log"
 
 	"github.com/spf13/cobra"
 )
 
 var dbSeedCmd = &cobra.Command{
-	Use:   "db seed",
+	Use:   "seed",
 	Short: "Run database seeder",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("db seed called")
+		println("Seeding...")
+		if err := seeder.Main(); err != nil {
+			log.Fatal(err)
+		}
+
+		println("Seeder finished")
 	},
 }
 
