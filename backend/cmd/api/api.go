@@ -1,10 +1,11 @@
 package main
 
 import (
+	"linker/app/controllers/auth"
+	"linker/app/middleware"
 	"linker/internal/database"
-	"linker/internal/models"
+	"linker/internal/seeder"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -22,18 +23,29 @@ func main() {
 		port = "8080"
 	}
 
-	db, err := database.Connect()
+	_, err := database.Connect()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	router.GET("/api/health", func(ctx *gin.Context) {
-		chat := db.First(&models.Chat{})
-		ctx.JSON(http.StatusOK, gin.H{
-			"test": "working",
-			"Chat": chat,
-		})
-	})
+    if err := seeder.Main(); err != nil {
+        log.Fatalf("Error seeding database: %v", err)
+    }  
+
+    authRoutes := router.Group("/auth")
+    {
+        authRoutes.GET("/linkedin/callback", auth.OauthCallBack)
+        authRoutes.GET("/linkedin/login", auth.OauthLogin)
+        authRoutes.POST("/login", auth.PasswordLogin)
+        authRoutes.POST("/logout", auth.Logout)
+        authRoutes.POST("/register", auth.PasswordRegister)
+    }
+
+    authorized := router.Group("/", middleware.JWTMiddleware())
+    {
+        authorized.GET("/test")
+    }
+
 
 	router.Run(":" + port)
 }

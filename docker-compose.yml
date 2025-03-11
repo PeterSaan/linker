@@ -25,7 +25,7 @@ services:
     command: "go run cmd/api/main.go"
     develop:
       watch:
-        - action: sync
+        - action: sync+restart
           path: ./backend
           target: /backend
   frontend:

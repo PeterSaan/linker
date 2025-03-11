@@ -3,13 +3,14 @@ package database
 import (
 	"fmt"
 	"linker/internal/migration"
-	"linker/internal/seeder"
 	"os"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
+
+var DB *gorm.DB
 
 func Connect() (*gorm.DB, error) {
 	if err := godotenv.Load(); err != nil {
@@ -33,9 +34,11 @@ func Connect() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err := seeder.Seed(db); err != nil {
-		return nil, err
-	}
+    DB = db
 	
 	return db, nil
+}
+
+func GetDB() *gorm.DB {
+    return DB
 }
