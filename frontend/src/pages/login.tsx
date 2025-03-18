@@ -2,8 +2,25 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
+import api from "@/api/axios";
 
 export default function Login(){
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
+  const [error, setError] = useState("")
+
+  const submit = async (e: any) => {
+    e.preventDefault()
+
+    await api.post("/auth/login", {
+      password: password,
+      email: email,
+    }).catch(function (error) {
+        setError(error.response.data.error)
+    })
+  }
+  
   return (
     <Card className="w-full max-w-sm p-6 shadow-lg rounded-2xl">
       <h2 className="text-2xl font-bold text-center">Login</h2>
@@ -11,8 +28,8 @@ export default function Login(){
         Enter your email below to login
       </p>
       <div className="flex mb-5">
-        <Button variant="outline" className="flex-1 flex items-center">
-         LinkedIn
+        <Button asChild variant="outline" className="flex-1 flex items-center">
+            <a href="/api/auth/linkedin/login">LinkedIn</a>
         </Button>
       </div>
       <div className="relative">
@@ -21,10 +38,25 @@ export default function Login(){
           OR CONTINUE WITH
         </span>
       </div>
-      <form className="space-y-4 mt-4">
-        <Input type="email" placeholder="m@example.com" className="w-full" />
-        <Input type="password" placeholder="Password" className="w-full" />
-        <Button className="w-full">Login</Button>
+      <form method="POST" onSubmit={submit} className="space-y-4 mt-4">
+        <Input
+            type="email" 
+            placeholder="m@example.com"
+            className="w-full"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+            type="password"
+            placeholder="Password"
+            className="w-full"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+        />
+        {error && (
+            <p className="text-red-600">{error}</p>
+        )}
+        <Button className="w-full" type="submit">Login</Button>
       </form>
     </Card>
   );
