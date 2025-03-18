@@ -2,10 +2,12 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"linker/internal/database"
 	"linker/internal/models"
 	"linker/internal/structs"
 	"log"
+	"strings"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -58,8 +60,12 @@ func PasswordRegisterUser(formData structs.PasswordRegiserData) (models.User, er
 	user := models.User{Email: formData.Email, Password: string(hash)}
 
 	if err := database.Create(&user).Error; err != nil {
-		log.Printf("Failed to create user: %v", err)
-		return models.User{}, err
+        if strings.Contains(err.Error(), "SQLSTATE 23505") {
+            return models.User{}, errors.New("This account is already registered")
+        } else {
+            log.Printf("Failed to create user: %v", err)
+            return models.User{}, err
+        }
 	}
 
 	return user, nil
@@ -69,16 +75,18 @@ func PasswordGetUser(formData structs.PasswordLoginData) (models.User, error) {
 	database := database.GetDB()
 	var user models.User
 
-	if err := database.Where("email ILIKE ?", formData.Email).First(&user).Error; err != nil {
-		return models.User{}, errors.New("User with this email address not found")
+	if err := database.First(&user, "email ILIKE ?", formData.Email).Error; err != nil {
+		return models.User{}, errors.New("Incorrect email or password")
 	}
 
+    fmt.Print(user)
+
 	if user.Password == "" {
-		return models.User{}, errors.New("This user has not registered with a password, try another login method")
+		return models.User{}, errors.New("")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(formData.Password)); err != nil {
-		return models.User{}, errors.New("Password does not match")
+		return models.User{}, errors.New("Incorrect email or password")
 	}
 
 	return user, nil
