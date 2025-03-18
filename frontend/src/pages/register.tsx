@@ -77,7 +77,7 @@ export default function Register() {
                                 <FormControl>
                                     <Input
                                         type="email"
-                                        placeholder="m@example.com"
+                                        placeholder="mail@example.com"
                                         className="w-full"
                                         required
                                         {...field}
@@ -95,7 +95,7 @@ export default function Register() {
                                 <FormControl>
                                     <Input
                                         type="password"
-                                        placeholder="Password"
+                                        placeholder="password"
                                         className="w-full"
                                         required
                                         {...field}
@@ -113,7 +113,7 @@ export default function Register() {
                                 <FormControl>
                                     <Input
                                         type="password"
-                                        placeholder="Password confirm"
+                                        placeholder="password confirmation"
                                         className="w-full"
                                         required
                                         {...field}
