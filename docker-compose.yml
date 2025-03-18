@@ -9,6 +9,7 @@ services:
       - db-data:/var/lib/postgresql/data 
     ports:
       - "5432:5432"
+
   backend:
     build:
       context: ./backend/
@@ -22,12 +23,13 @@ services:
     working_dir: "/backend"
     ports:
       - "8080:8080"
-    command: "go run cmd/api/main.go"
+    command: "go run cmd/api/api.go"
     develop:
       watch:
         - action: sync+restart
           path: ./backend
           target: /backend
+
   frontend:
     build:
       context: ./frontend/

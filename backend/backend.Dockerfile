@@ -5,4 +5,4 @@ WORKDIR /backend
 COPY . .
 
 RUN go mod download
-
+RUN bash setup_clinker.sh
