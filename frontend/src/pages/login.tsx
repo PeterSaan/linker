@@ -10,8 +10,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 export default function Login() {
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
     const [error, setError] = useState("");
 
     const formSchema = z
@@ -28,13 +26,11 @@ export default function Login() {
         },
     });
 
-    const submit = async (e: any) => {
-        e.preventDefault();
-
+    const submit = async (values: z.infer<typeof formSchema>) => {
         await api
             .post("/auth/login", {
-                password: password,
-                email: email,
+                password: values.password,
+                email: values.email,
             })
             .catch(function (error) {
                 setError(error.response.data.error);
