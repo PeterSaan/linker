@@ -4,6 +4,7 @@ import TinderCard from 'react-tinder-card'
 import './App.css'
 
 import Login from './pages/login';
+import Register from './pages/register';
 
 function App() {
   const [health, setHealth] = useState<string>('')
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <div className="App">
-        <Login/>    
+        <Register/>
     </div>
   )
 }
