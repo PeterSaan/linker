@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"linker/internal/migration"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -30,11 +29,7 @@ func Connect() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err := migration.Migrate(db); err != nil {
-		return nil, err
-	}
-
-    DB = db
+  DB = db
 	
 	return db, nil
 }

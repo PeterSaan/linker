@@ -4,7 +4,6 @@ import (
 	"linker/app/controllers/auth"
 	"linker/app/middleware"
 	"linker/internal/database"
-	"linker/internal/seeder"
 	"log"
 	"os"
 	"time"
@@ -28,10 +27,6 @@ func main() {
 	_, err := database.Connect()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
-	}
-
-	if err := seeder.Main(); err != nil {
-		log.Fatalf("Error seeding database: %v", err)
 	}
 
 	router.Use(cors.New(cors.Config{

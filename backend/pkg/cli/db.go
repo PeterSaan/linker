@@ -1,6 +1,11 @@
 package cli
 
-import "github.com/spf13/cobra"
+import (
+	"linker/internal/database"
+	"log"
+
+	"github.com/spf13/cobra"
+)
 
 var dbCmd = &cobra.Command{
 	Use:   "db",
@@ -8,5 +13,10 @@ var dbCmd = &cobra.Command{
 }
 
 func init() {
+	_, err := database.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	rootCmd.AddCommand(dbCmd)
 }
