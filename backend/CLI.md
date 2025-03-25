@@ -13,14 +13,23 @@ go build backend/cmd/cli/clinker.go
 mv clinker YOUR/PERSONAL/go/bin     # Replace with your actual go/bin path
 ```
 
-## Using Clinker
+## Commands
 
-The CLI doesn't process any flags except for `--help` (or `-h`), just works with commands like so:
-```bash
-clinker [COMMAND] [COMMAND]
-# e.g. clinker key generate
-```
-Using `--help` gives you a list of commands you can use to follow up the last command.
+### db migrate
+
+Runs database migrations
+
+Supply the command with flag `-s` or `--seed` to aditionally seed the database.
+Supply the command with flag `-f` or `--fresh` to drop the database and seed it.
+
+### db drop
+
+Drops database
+
+### key generate
+
+Generates APP_KEY in .env file
+
 
 ## Developing Clinker
 
