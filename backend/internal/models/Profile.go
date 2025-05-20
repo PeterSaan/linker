@@ -3,7 +3,9 @@ package models
 type Profile struct {
 	ID          uint
 	UserID      uint `gorm:"unique"`
-	Name        string
+	FirstName   string
+	LastName    string
+	Location   	string
 	Description string
 	Avatar      string
 	Type        string

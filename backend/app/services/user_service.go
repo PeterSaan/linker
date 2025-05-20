@@ -39,7 +39,14 @@ func LinkedInRegisterUser(userData structs.UserDataLinkedIn) error {
 		return err
 	}
 
-	profile := models.Profile{UserID: user.ID, Avatar: userData.Picture, Name: userData.Name}
+	names := strings.Fields(userData.Name)
+	firstName := names[0]
+	lastName := ""
+	if len(names) > 1 {
+	    lastName = strings.Join(names[1:], " ")
+	}
+
+	profile := models.Profile{UserID: user.ID, Avatar: userData.Picture, FirstName: firstName, LastName:  lastName,}
 	if err := database.Create(&profile).Error; err != nil {
 		log.Printf("Failed to create users profile: %v", err)
 		return err

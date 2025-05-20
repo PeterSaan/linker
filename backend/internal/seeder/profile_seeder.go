@@ -13,16 +13,16 @@ func ProfileSeeder() error {
 	var users []models.User
 
 	profiles := []models.Profile{}
-    db.Model(&models.User{}).Preload("Profile").Find(&users)
+	db.Model(&models.User{}).Preload("Profile").Find(&users)
 
 	fmt.Println("ProfileSeeder:: Creating user profiles")
 
 	for _, u := range users {
 		if u.Profile.UserID != u.ID {
-            avatar := "https://picsum.photos/seed/" + faker.Password() + "/200/200"
-            profile := models.Profile{Name: faker.Name(), Description: faker.Paragraph(), UserID: u.ID, Avatar: avatar}
+			avatar := "https://picsum.photos/seed/" + faker.Password() + "/200/200"
+			profile := models.Profile{FirstName: faker.FirstName(), LastName: faker.LastName(), Location: "New York, USA", Description: faker.Paragraph(), UserID: u.ID, Avatar: avatar}
 
-            profiles = append(profiles, profile)
+			profiles = append(profiles, profile)
 		}
 	}
 
