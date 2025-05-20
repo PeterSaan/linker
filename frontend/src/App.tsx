@@ -5,6 +5,7 @@ import SwipeCard from "./components/ui/swipeCard";
 import TinderCard from "react-tinder-card";
 import "./App.css";
 import React from "react";
+import { Redo2 } from "lucide-react";
 
 const db = [
   {
@@ -176,7 +177,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 overflow-x-hidden">
+    <div className="flex flex-col items-center min-h-screen p-4 overflow-hidden">
       <header className="w-full max-w-md flex justify-between items-center p-4 mb-6">
         <div className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
           Linker
@@ -259,18 +260,7 @@ export default function App() {
           disabled={!canGoBack}
           className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-transform hover:scale-110"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-yellow-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L4.414 9H17a1 1 0 110 2H4.414l5.293 5.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <Redo2 className="h-6 w-6 text-yellow-500" style={{ transform: "rotateY(180deg)" }} />
         </button>
 
         <button
@@ -300,7 +290,7 @@ export default function App() {
           }`}
         >
           {lastDirection === "right"
-            ? "You liked this profile!"
+            ? `You liked this profile!`
             : "You passed on this profile"}
         </div>
       )}
